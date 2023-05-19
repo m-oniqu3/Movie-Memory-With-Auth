@@ -1,11 +1,11 @@
-import { useState } from "react";
-import { GrMenu } from "react-icons/gr";
+import { IconContext } from "react-icons";
+import { BiSearch, BiUserCircle } from "react-icons/bi";
+import { RiMenuFill } from "react-icons/ri";
 import { styled } from "styled-components";
 import Container from "../../helpers/ui/Container";
 import Logo from "./../../assets/logo.png";
 
 const StyledNav = styled.nav`
-  /* background: blueviolet; */
   z-index: 100;
   position: fixed;
   top: 0;
@@ -15,6 +15,20 @@ const StyledNav = styled.nav`
   display: flex;
   align-items: center;
   justify-content: center;
+
+  .nav__container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    .icons {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 0.5rem;
+      cursor: pointer;
+    }
+  }
 
   figure {
     width: 7rem;
@@ -27,19 +41,30 @@ const StyledNav = styled.nav`
 `;
 
 const Navbar = () => {
-  const [showFullNav, setShowFullNav] = useState(false);
+  // const [showFullNav, setShowFullNav] = useState(false);
   return (
     <StyledNav>
-      <Container>
+      <Container className="nav__container">
         <figure>
           <img src={Logo} alt="logo" />
         </figure>
 
-        {showFullNav && (
-          <div className="icons">
-            <GrMenu />
-          </div>
-        )}
+        <div className="icons">
+          <IconContext.Provider
+            value={{ color: "var(--primary-neutral)", size: "1.4rem" }}
+          >
+            <div>
+              <BiSearch />
+            </div>
+            <div>
+              <BiUserCircle />
+            </div>
+
+            <div>
+              <RiMenuFill />
+            </div>
+          </IconContext.Provider>
+        </div>
       </Container>
     </StyledNav>
   );
