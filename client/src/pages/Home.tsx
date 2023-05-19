@@ -1,13 +1,19 @@
 import { styled } from "styled-components";
+import Button from "../components/nav/Button";
 import Container from "../helpers/ui/Container";
 import Heading from "../helpers/ui/Heading";
 import { StyledText } from "../styles/StyledText.styled";
+import Background from "./../assets/background.png";
 
 const StyledHome = styled.div`
-  background-color: green;
   height: 100vh;
   display: grid;
   place-items: center;
+  background-image: url(${Background});
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  color: var(--primary-neutral);
 
   article {
     display: flex;
@@ -29,7 +35,7 @@ const Home = () => {
             all your unforgettable moments.
           </StyledText>
 
-          <button>Get started</button>
+          <Button className="primary">Get started</Button>
         </article>
       </Container>
     </StyledHome>
