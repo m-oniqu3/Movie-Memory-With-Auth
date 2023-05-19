@@ -1,5 +1,5 @@
 import { styled } from "styled-components";
-import Button from "../components/nav/Button";
+import Button from "../components/Button";
 import Container from "../helpers/ui/Container";
 import Heading from "../helpers/ui/Heading";
 import { StyledText } from "../styles/StyledText.styled";

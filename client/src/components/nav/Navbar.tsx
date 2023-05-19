@@ -1,9 +1,11 @@
+import { useState } from "react";
 import { IconContext } from "react-icons";
 import { BiSearch, BiUserCircle } from "react-icons/bi";
 import { RiMenuFill } from "react-icons/ri";
 import { styled } from "styled-components";
 import Container from "../../helpers/ui/Container";
 import Logo from "./../../assets/logo.png";
+import MobileMenu from "./MobileMenu";
 
 const StyledNav = styled.nav`
   z-index: 100;
@@ -41,32 +43,39 @@ const StyledNav = styled.nav`
 `;
 
 const Navbar = () => {
-  // const [showFullNav, setShowFullNav] = useState(false);
+  const [openMobileMenu, setOpenMobileMenu] = useState(false);
+
+  const handleMobileMenu = () => setOpenMobileMenu((state) => !state);
+
   return (
-    <StyledNav>
-      <Container className="nav__container">
-        <figure>
-          <img src={Logo} alt="logo" />
-        </figure>
+    <>
+      <StyledNav>
+        <Container className="nav__container">
+          <figure>
+            <img src={Logo} alt="logo" />
+          </figure>
 
-        <div className="icons">
-          <IconContext.Provider
-            value={{ color: "var(--primary-neutral)", size: "1.4rem" }}
-          >
-            <div>
-              <BiSearch />
-            </div>
-            <div>
-              <BiUserCircle />
-            </div>
+          <div className="icons">
+            <IconContext.Provider
+              value={{ color: "var(--primary-neutral)", size: "1.4rem" }}
+            >
+              <div>
+                <BiSearch />
+              </div>
+              <div>
+                <BiUserCircle />
+              </div>
 
-            <div>
-              <RiMenuFill />
-            </div>
-          </IconContext.Provider>
-        </div>
-      </Container>
-    </StyledNav>
+              <div onClick={handleMobileMenu}>
+                <RiMenuFill />
+              </div>
+            </IconContext.Provider>
+          </div>
+        </Container>
+      </StyledNav>
+
+      {openMobileMenu && <MobileMenu setOpenMobileMenu={setOpenMobileMenu} />}
+    </>
   );
 };
 
