@@ -8,6 +8,7 @@ const StyledButton = styled.a`
   transition: all 0.3s ease-in-out;
   cursor: pointer;
   text-decoration: none;
+  text-align: center;
 
   &.primary {
     background-color: var(--primary-neutral);
@@ -18,7 +19,7 @@ const StyledButton = styled.a`
       color: var(--primary-neutral);
     }
 
-    /* &--dark {
+    &--dark {
       background-color: var(--primary);
       color: var(--primary-neutral);
       border: 1px solid var(--primary);
@@ -39,17 +40,22 @@ const StyledButton = styled.a`
           border: 1px solid var(--primary);
         }
       }
-    } */
+    }
   }
 `;
 
 type Props = {
   children: string;
   className: string;
+  onClick: () => void;
 };
 
-const Button = ({ children, className }: Props) => {
-  return <StyledButton className={className}> {children} </StyledButton>;
+const Button = ({ children, className, onClick }: Props) => {
+  return (
+    <StyledButton className={className} onClick={onClick}>
+      {children}
+    </StyledButton>
+  );
 };
 
 export default Button;

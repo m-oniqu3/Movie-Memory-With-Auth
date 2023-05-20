@@ -18,7 +18,7 @@ const StyledHeading = styled.h1`
   }
 
   &.medium {
-    font-size: clamp(1.8rem, 4vw, 8rem);
+    font-size: clamp(1.8rem, 5vw, 8rem);
     color: var(--primary-neutral);
     font-weight: 900;
   }
