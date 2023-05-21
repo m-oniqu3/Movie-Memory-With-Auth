@@ -5,13 +5,39 @@ import Button from "../components/Button";
 import Container from "../helpers/ui/Container";
 import Heading from "../helpers/ui/Heading";
 import { StyledText } from "../styles/StyledText.styled";
+import Poster from "./../assets/poster.png";
 
 const StyledAccount = styled.div`
   position: relative;
   top: 10vh;
+  display: grid;
+
+  @media (min-width: 900px) {
+    grid-template-columns: 40% 60%;
+    height: 100%;
+    top: 0;
+  }
 
   figure {
     display: none;
+    width: 600px;
+    position: relative;
+    top: 0;
+    left: 0;
+
+    @media (min-width: 900px) {
+      display: grid;
+      height: 100vh;
+      width: 100%;
+      z-index: 0;
+    }
+
+    img {
+      width: 100%;
+      height: 100%;
+      max-height: 100vh;
+      object-fit: cover;
+    }
   }
 
   .form__container {
@@ -19,10 +45,16 @@ const StyledAccount = styled.div`
     display: grid;
     place-items: center;
 
+    @media (min-width: 900px) {
+      height: 100vh;
+    }
+
     article {
       display: flex;
       flex-direction: column;
       gap: 1rem;
+      max-width: 300px;
+      margin: auto;
 
       form {
         display: flex;
@@ -83,51 +115,52 @@ const Account = () => {
   const { createAccount, login } = formContent;
 
   const handleForm = () => setShowAccountForm((state) => !state);
+  const handleClick = () => console.log("click");
+
+  const heading = showAccountForm ? createAccount.heading : login.heading;
+  const greeting = showAccountForm ? createAccount.greeting : login.greeting;
+  const button = showAccountForm ? createAccount.button : login.button;
+
+  const createAccountPrompt = (
+    <>
+      {createAccount.prompt} &nbsp;{" "}
+      <Link to="#login" onClick={handleForm}>
+        Login
+      </Link>
+    </>
+  );
+
+  const loginPrompt = (
+    <>
+      {login.prompt} &nbsp;
+      <Link to="#create" onClick={handleForm}>
+        Create Account
+      </Link>
+    </>
+  );
+
+  const prompt = showAccountForm ? createAccountPrompt : loginPrompt;
 
   return (
     <StyledAccount>
       <figure>
-        <img src="" alt="" />
+        <img src={Poster} alt="poster" />
       </figure>
 
       <Container className="form__container">
         <article>
-          <Heading className="small--dark">
-            {showAccountForm ? createAccount.heading : login.heading}
-          </Heading>
-          <StyledText>
-            {showAccountForm ? createAccount.greeting : login.greeting}
-          </StyledText>
+          <Heading className="small--dark">{heading}</Heading>
+          <StyledText>{greeting}</StyledText>
+
           <form>
             <input type="email" placeholder="Email" />
             <input type="password" placeholder="Password" />
 
-            <Button
-              className="primary--dark"
-              onClick={() => {
-                console.log("btn");
-              }}
-            >
-              {showAccountForm ? createAccount.button : login.button}
+            <Button className="primary--dark" onClick={handleClick}>
+              {button}
             </Button>
 
-            <StyledText className="prompt">
-              {showAccountForm ? (
-                <>
-                  {createAccount.prompt} &nbsp;
-                  <Link to="#login" onClick={handleForm}>
-                    Login
-                  </Link>
-                </>
-              ) : (
-                <>
-                  {login.prompt} &nbsp;
-                  <Link to="#create" onClick={handleForm}>
-                    Create Account
-                  </Link>
-                </>
-              )}
-            </StyledText>
+            <StyledText className="prompt">{prompt}</StyledText>
           </form>
         </article>
       </Container>
