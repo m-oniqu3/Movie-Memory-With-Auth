@@ -9,12 +9,7 @@ import Avengers from "./../../assets/the-avengers_3057_2880x1800.jpg";
 import DarkKnight from "./../../assets/the-dark-knight_7918_2880x1800.jpg";
 import Hitman from "./../../assets/the-hitmans-bodyguard_fd51_2880x1800.jpg";
 
-export interface Film {
-  src: string;
-  title: string;
-  desc: string;
-  genre: string[];
-}
+import { Film } from "./../../types/Film";
 
 export const browseMovies: Film[] = [
   {

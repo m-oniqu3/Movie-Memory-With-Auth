@@ -2,7 +2,7 @@ import { styled } from "styled-components";
 
 const StyledHeading = styled.h1`
   font-family: var(--heading);
-  line-height: 100%;
+  line-height: 110%;
 
   &.small {
     font-size: clamp(1.3rem, 4vw, 1.7rem);
