@@ -1,8 +1,10 @@
+import { useNavigate } from "react-router-dom";
 import { styled } from "styled-components";
 import Button from "../components/Button";
 import Container from "../helpers/ui/Container";
 import Heading from "../helpers/ui/Heading";
 import { StyledText } from "../styles/StyledText.styled";
+import { devices } from "../styles/breakpoint";
 import Background from "./../assets/background.png";
 
 const StyledHome = styled.div`
@@ -19,11 +21,27 @@ const StyledHome = styled.div`
     display: flex;
     flex-direction: column;
     gap: 1rem;
-    max-width: 500px;
+
+    @media (${devices.medium}) {
+      width: 500px;
+    }
+
+    @media (${devices.large}) {
+      width: 550px;
+    }
+
+    p {
+      max-width: 500px;
+    }
   }
 `;
 
 const Home = () => {
+  const navigate = useNavigate();
+  const handleClick = () => {
+    navigate("/account");
+  };
+
   return (
     <StyledHome>
       <Container>
@@ -36,7 +54,9 @@ const Home = () => {
             all your unforgettable moments.
           </StyledText>
 
-          <Button className="primary">Get started</Button>
+          <Button className="primary" onClick={handleClick}>
+            Get started
+          </Button>
         </article>
       </Container>
     </StyledHome>

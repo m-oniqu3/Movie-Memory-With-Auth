@@ -15,6 +15,7 @@ export const GlobalStyles = createGlobalStyle`
     --primary-medium: #293a33;
     --primary-light: #dceddd;
     --primary-dark: #04100b;
+    --placeholder: rgba(0, 0, 0, 0.45);
 
     --heading: "Montserrat", sans-serif;
   }
