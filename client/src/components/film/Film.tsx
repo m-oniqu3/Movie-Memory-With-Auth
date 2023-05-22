@@ -3,38 +3,47 @@ import axios, { AxiosResponse } from "axios";
 import { styled } from "styled-components";
 import Container from "../../helpers/ui/Container";
 import Heading from "../../helpers/ui/Heading";
+import Loading from "../../helpers/ui/Loading";
 
 const StyledFilms = styled.div`
   background-color: var(--primary-dark);
   padding: 2rem 0;
+  min-height: 100vh;
 `;
 
 type Props = {
   heading: string;
+  url: string;
+  queryKey: string;
 };
 
-const Film = ({ heading }: Props) => {
+const fetchFilms = async (url: string) => {
   const APIKEY = import.meta.env.VITE_API_KEY;
 
-  const fetchFilms = async () => {
-    try {
-      const response: AxiosResponse = await axios.get(
-        "https://api.themoviedb.org/3/movie/upcoming",
-        { params: { api_key: APIKEY } }
-      );
-      return response.data.results;
-    } catch (error) {
-      throw new Error("Error fetching movies");
-    }
-  };
+  try {
+    const response: AxiosResponse = await axios.get(`${url}`, {
+      params: { api_key: APIKEY },
+    });
+    return response.data.results;
+  } catch (error) {
+    throw new Error("Error fetching movies");
+  }
+};
 
+const Film = ({ heading, queryKey, url }: Props) => {
   const { isLoading, error, data } = useQuery({
-    queryKey: ["films"],
-    queryFn: fetchFilms,
+    queryKey: [`${queryKey}`],
+    queryFn: () => fetchFilms(url),
   });
 
   if (isLoading) {
-    return <div>Loading...</div>;
+    return (
+      <StyledFilms>
+        <Container>
+          <Loading />
+        </Container>
+      </StyledFilms>
+    );
   }
 
   if (error) {
