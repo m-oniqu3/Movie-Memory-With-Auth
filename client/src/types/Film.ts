@@ -4,3 +4,9 @@ export type Film = {
   desc: string;
   genre: string[];
 };
+
+export type FilmData = {
+  id: number;
+  poster_path: string;
+  title: string;
+};

@@ -10,6 +10,7 @@ const Browse = () => {
         heading="Upcoming Movies"
         url="https://api.themoviedb.org/3/movie/upcoming"
         queryKey="upcomingMovies"
+        mediaType="movie"
       />
     </div>
   );
