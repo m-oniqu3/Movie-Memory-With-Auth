@@ -15,6 +15,7 @@ import "swiper/css/navigation";
 import "swiper/css/pagination";
 import "swiper/css/scrollbar";
 import { Swiper, SwiperSlide } from "swiper/react";
+import { v4 as uuidv4 } from "uuid";
 import { StyledText } from "../../styles/StyledText.styled";
 import { devices } from "../../styles/breakpoint";
 import Container from "../ui/Container";
@@ -137,17 +138,21 @@ const SlideShow = ({ movies }: Props) => {
       >
         {movies.map((movie) => {
           return (
-            <SwiperSlide key={movie.title} className="swiper-slide">
+            <SwiperSlide key={uuidv4()} className="swiper-slide">
               <img src={movie.src} alt={movie.title} className="swiper-image" />
               <div className="overlay"></div>
 
-              <article class="movie-container">
+              <article className="movie-container">
                 <Container>
                   <Heading className="medium">{movie.title}</Heading>
                   <StyledText>{movie.desc}</StyledText>
-                  <div class="genres">
+                  <div className="genres">
                     {movie.genre.map((genre: string) => {
-                      return <p class="genre">{genre}</p>;
+                      return (
+                        <p key={uuidv4()} className="genre">
+                          {genre}
+                        </p>
+                      );
                     })}
                   </div>
                 </Container>
