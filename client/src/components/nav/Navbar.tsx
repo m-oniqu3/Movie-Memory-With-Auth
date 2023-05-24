@@ -11,7 +11,7 @@ import MobileMenu from "./MobileMenu";
 
 const StyledNav = styled.nav`
   z-index: 100;
-  position: fixed;
+  position: absolute;
   top: 0;
   left: 0;
   width: 100%;

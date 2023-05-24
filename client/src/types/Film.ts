@@ -10,3 +10,11 @@ export type FilmData = {
   poster_path: string;
   title: string;
 };
+
+export type MediaType = "movie" | "tv";
+
+export interface FilmDetails extends FilmData {
+  genres: { id: number; name: string }[];
+  overview: string;
+  release_date: string;
+}

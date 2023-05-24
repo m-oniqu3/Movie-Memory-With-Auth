@@ -5,8 +5,10 @@ import Container from "../../helpers/ui/Container";
 import Heading from "../../helpers/ui/Heading";
 import Loading from "../../helpers/ui/Loading";
 
+import { useState } from "react";
 import { devices } from "../../styles/breakpoint";
-import type { FilmData } from "../../types/Film";
+import type { FilmData, MediaType } from "../../types/Film";
+import Modal from "./Modal";
 
 const StyledFilms = styled.div`
   background-color: var(--primary-dark);
@@ -16,6 +18,7 @@ const StyledFilms = styled.div`
   .grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(105px, 1fr));
+
     grid-gap: 1rem;
     padding: 2rem 0;
 
@@ -24,16 +27,22 @@ const StyledFilms = styled.div`
       grid-gap: 2rem;
     }
 
-    img {
-      height: 10.8rem;
-      width: 6.5rem;
-      object-fit: cover;
-      border-radius: 5px;
-      cursor: pointer;
+    figure {
+      display: flex;
+      justify-content: center;
+      align-items: center;
 
-      @media (${devices.medium}) {
-        height: 17rem;
-        width: 10.8rem;
+      img {
+        height: 10.8rem;
+        width: 6.5rem;
+        object-fit: cover;
+        border-radius: 5px;
+        cursor: pointer;
+
+        @media (${devices.medium}) {
+          height: 17rem;
+          width: 10.8rem;
+        }
       }
     }
   }
@@ -43,7 +52,7 @@ type Props = {
   heading: string;
   url: string;
   queryKey: string;
-  mediaType: "movie" | "tv";
+  mediaType: MediaType;
 };
 
 const fetchFilms = async (url: string): Promise<FilmData[]> => {
@@ -59,15 +68,15 @@ const fetchFilms = async (url: string): Promise<FilmData[]> => {
   }
 };
 
-const Film = ({ heading, queryKey, url }: Props) => {
-  const {
-    isLoading,
-    error,
-    data = [],
-  } = useQuery({
+const Film = ({ heading, queryKey, url, mediaType }: Props) => {
+  const [openModal, setOpenModal] = useState(false);
+  const [filmData, setFilmData] = useState<FilmData | null>(null);
+  const results = useQuery({
     queryKey: [`${queryKey}`],
     queryFn: () => fetchFilms(url),
   });
+
+  const { isLoading, error, data = [] } = results;
 
   if (isLoading) {
     return (
@@ -83,27 +92,47 @@ const Film = ({ heading, queryKey, url }: Props) => {
     return <div>Error</div>;
   }
 
+  const handleClick = (film: FilmData) => {
+    setOpenModal(true);
+    setFilmData(film);
+  };
+
   console.log(data);
 
   return (
-    <StyledFilms>
-      <Container>
-        <Heading className="small--white">{heading}</Heading>
+    <>
+      <StyledFilms>
+        <Container>
+          <Heading className="small white white--styled">{heading}</Heading>
 
-        <div className="grid">
-          {data
-            .filter((film: FilmData) => film.poster_path)
-            .map((film: FilmData) => (
-              <figure key={film.id}>
-                <img
-                  src={`https://image.tmdb.org/t/p/w500${film.poster_path}`}
-                  alt={film.title}
-                />
-              </figure>
-            ))}
-        </div>
-      </Container>
-    </StyledFilms>
+          <div className="grid">
+            {data
+              .filter((film: FilmData) => film.poster_path)
+              .map((film: FilmData) => {
+                const { id, title, poster_path } = film;
+                const newFilm = { id, title, poster_path, mediaType };
+
+                return (
+                  <figure key={film.id} onClick={() => handleClick(newFilm)}>
+                    <img
+                      src={`https://image.tmdb.org/t/p/w500${film.poster_path}`}
+                      alt={film.title}
+                    />
+                  </figure>
+                );
+              })}
+          </div>
+        </Container>
+      </StyledFilms>
+
+      {openModal && (
+        <Modal
+          closeModal={() => setOpenModal(false)}
+          filmData={filmData as FilmData}
+          mediaType={mediaType}
+        />
+      )}
+    </>
   );
 };
 
