@@ -93,11 +93,12 @@ const Film = ({ heading, queryKey, url, mediaType }: Props) => {
   }
 
   const handleClick = (film: FilmData) => {
-    setOpenModal(true);
+    setOpenModal((state) => !state);
     setFilmData(film);
   };
 
   console.log(data);
+  console.log(openModal);
 
   return (
     <>
