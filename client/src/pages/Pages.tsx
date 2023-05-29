@@ -1,5 +1,6 @@
 import { Route, Routes } from "react-router-dom";
 import Navbar from "../components/nav/Navbar";
+import Search from "../components/search/Search";
 import Account from "./Account";
 import Browse from "./Browse";
 import Home from "./Home";
@@ -16,6 +17,7 @@ const Pages = () => {
         <Route path="/browse" element={<Browse />} />
         <Route path="/tvshows" element={<TvShows />} />
         <Route path="/movies" element={<Movies />} />
+        <Route path="/search" element={<Search />} />
       </Routes>
     </>
   );
