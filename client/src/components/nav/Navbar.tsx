@@ -1,8 +1,8 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { IconContext } from "react-icons";
 import { BiSearch, BiUserCircle } from "react-icons/bi";
 import { RiMenuFill } from "react-icons/ri";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { styled } from "styled-components";
 import Container from "../../helpers/ui/Container";
 import { devices } from "../../styles/breakpoint";
@@ -71,8 +71,13 @@ const StyledNav = styled.nav`
 const Navbar = () => {
   const navigate = useNavigate();
   const [openMobileMenu, setOpenMobileMenu] = useState(false);
+  const location = useLocation();
 
   const handleMobileMenu = () => setOpenMobileMenu((state) => !state);
+
+  useEffect(() => {
+    setOpenMobileMenu(false);
+  }, [location]);
 
   return (
     <>
@@ -116,7 +121,9 @@ const Navbar = () => {
         </Container>
       </StyledNav>
 
-      {openMobileMenu && <MobileMenu setOpenMobileMenu={setOpenMobileMenu} />}
+      {openMobileMenu && (
+        <MobileMenu closeMobileMenu={() => setOpenMobileMenu(false)} />
+      )}
     </>
   );
 };

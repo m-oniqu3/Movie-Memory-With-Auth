@@ -1,7 +1,7 @@
 import { IconContext } from "react-icons";
 import { BiSearch, BiUserCircle } from "react-icons/bi";
 import { VscChromeClose } from "react-icons/vsc";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { styled } from "styled-components";
 import Container from "../../helpers/ui/Container";
 import Logo from "./../../assets/logo.png";
@@ -62,11 +62,11 @@ const StyledMenu = styled.nav`
 `;
 
 type Props = {
-  setOpenMobileMenu: React.Dispatch<React.SetStateAction<boolean>>;
+  closeMobileMenu: () => void;
 };
 
-const MobileMenu = ({ setOpenMobileMenu }: Props) => {
-  const handleMobileMenu = () => setOpenMobileMenu((state) => !state);
+const MobileMenu = ({ closeMobileMenu }: Props) => {
+  const navigate = useNavigate();
 
   return (
     <StyledMenu>
@@ -80,14 +80,14 @@ const MobileMenu = ({ setOpenMobileMenu }: Props) => {
             <IconContext.Provider
               value={{ color: "var(--primary-neutral)", size: "1.4rem" }}
             >
-              <div>
+              <div onClick={() => navigate("/search")}>
                 <BiSearch />
               </div>
               <div>
                 <BiUserCircle />
               </div>
 
-              <div onClick={handleMobileMenu}>
+              <div onClick={() => closeMobileMenu()}>
                 <VscChromeClose />
               </div>
             </IconContext.Provider>

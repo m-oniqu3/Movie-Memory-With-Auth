@@ -22,6 +22,7 @@ const StyledSearch = styled.div`
         border-radius: 5px;
         padding: 0.5rem;
         background: none;
+        font-size: 1rem;
 
         &:focus {
           outline: none;
@@ -29,6 +30,10 @@ const StyledSearch = styled.div`
 
         &::placeholder {
           color: var(--primary-light);
+        }
+
+        @media (${devices.medium}) {
+          padding: 0.675rem;
         }
       }
     }

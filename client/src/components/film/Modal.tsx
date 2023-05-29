@@ -49,6 +49,7 @@ const StyledModal = styled.div`
       top: 2px;
       right: 3px;
       font-size: 1.5rem;
+      cursor: pointer;
     }
 
     figure.poster {
