@@ -1,3 +1,4 @@
+import ReactDOM from "react-dom";
 import { IconContext } from "react-icons";
 import { BiSearch, BiUserCircle } from "react-icons/bi";
 import { VscChromeClose } from "react-icons/vsc";
@@ -68,7 +69,7 @@ type Props = {
 const MobileMenu = ({ closeMobileMenu }: Props) => {
   const navigate = useNavigate();
 
-  return (
+  return ReactDOM.createPortal(
     <StyledMenu>
       <Container>
         <div className="header">
@@ -109,7 +110,8 @@ const MobileMenu = ({ closeMobileMenu }: Props) => {
           </li>
         </ul>
       </Container>
-    </StyledMenu>
+    </StyledMenu>,
+    document.querySelector("#menu") as HTMLDivElement
   );
 };
 
