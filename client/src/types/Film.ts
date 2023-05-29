@@ -18,3 +18,7 @@ export interface FilmDetails extends FilmData {
   overview: string;
   release_date: string;
 }
+
+export interface ExtendedFilmDetails extends FilmDetails {
+  media_type: MediaType;
+}

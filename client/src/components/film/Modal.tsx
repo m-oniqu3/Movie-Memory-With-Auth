@@ -49,9 +49,10 @@ const StyledModal = styled.div`
       top: 2px;
       right: 3px;
       font-size: 1.5rem;
+      cursor: pointer;
     }
 
-    figure {
+    figure.poster {
       width: 100%;
       height: 100%;
 
@@ -150,7 +151,7 @@ const Modal = (props: Props) => {
           <RiCloseFill onClick={closeModal} />
         </div>
 
-        <figure>
+        <figure className="poster">
           <img src={data.poster_path} alt={data.title} />
         </figure>
 

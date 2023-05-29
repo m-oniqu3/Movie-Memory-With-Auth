@@ -1,12 +1,12 @@
 import axios, { AxiosResponse } from "axios";
-import { FilmDetails, MediaType } from "../../types/Film";
+import { ExtendedFilmDetails, MediaType } from "../../types/Film";
+
+const APIKEY = import.meta.env.VITE_API_KEY;
 
 export const fetchFilmDetails = async (
   id: number,
   mediaType: MediaType
-): Promise<FilmDetails> => {
-  const APIKEY = import.meta.env.VITE_API_KEY;
-
+): Promise<ExtendedFilmDetails> => {
   const url =
     mediaType === "movie"
       ? `https://api.themoviedb.org/3/movie/${id}?api_key=${APIKEY}&language=en-US`
@@ -26,6 +26,7 @@ export const fetchFilmDetails = async (
         poster_path: `https://image.tmdb.org/t/p/w500${data.poster_path}`,
         genres: data.genres,
         release_date: data.release_date,
+        media_type: mediaType,
       };
     } else {
       return {
@@ -35,9 +36,27 @@ export const fetchFilmDetails = async (
         poster_path: `https://image.tmdb.org/t/p/w500${data.poster_path}`,
         genres: data.genres,
         release_date: data.first_air_date,
+        media_type: mediaType,
       };
     }
   } catch (error) {
     throw new Error("Error fetching movie");
+  }
+};
+
+export const fetchFrequentlySearched = async () => {
+  const url = `https://api.themoviedb.org/3/trending/all/day`;
+
+  try {
+    const response: AxiosResponse = await axios.get(`${url}`, {
+      params: { api_key: APIKEY },
+    });
+
+    const data = response.data.results;
+
+    console.log(data);
+    return data;
+  } catch (error) {
+    throw new Error("Error fetching frequently searched");
   }
 };

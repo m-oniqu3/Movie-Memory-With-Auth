@@ -5,10 +5,13 @@ import Container from "../../helpers/ui/Container";
 import Heading from "../../helpers/ui/Heading";
 import Loading from "../../helpers/ui/Loading";
 
-import { useState } from "react";
 import { devices } from "../../styles/breakpoint";
-import type { FilmData, MediaType } from "../../types/Film";
-import Modal from "./Modal";
+import type {
+  ExtendedFilmDetails,
+  FilmDetails,
+  MediaType,
+} from "../../types/Film";
+import FilmGrid from "./FilmGrid";
 
 const StyledFilms = styled.div`
   background-color: var(--primary-dark);
@@ -55,7 +58,7 @@ type Props = {
   mediaType: MediaType;
 };
 
-const fetchFilms = async (url: string): Promise<FilmData[]> => {
+const fetchFilms = async (url: string): Promise<FilmDetails[]> => {
   const APIKEY = import.meta.env.VITE_API_KEY;
 
   try {
@@ -69,8 +72,6 @@ const fetchFilms = async (url: string): Promise<FilmData[]> => {
 };
 
 const Film = ({ heading, queryKey, url, mediaType }: Props) => {
-  const [openModal, setOpenModal] = useState(false);
-  const [filmData, setFilmData] = useState<FilmData | null>(null);
   const results = useQuery({
     queryKey: [`${queryKey}`],
     queryFn: () => fetchFilms(url),
@@ -92,48 +93,29 @@ const Film = ({ heading, queryKey, url, mediaType }: Props) => {
     return <div>Error</div>;
   }
 
-  const handleClick = (film: FilmData) => {
-    setOpenModal((state) => !state);
-    setFilmData(film);
-  };
-
-  console.log(data);
-  console.log(openModal);
+  if (!data) {
+    return <div>No data</div>;
+  }
 
   return (
-    <>
-      <StyledFilms>
-        <Container>
-          <Heading className="small white white--styled">{heading}</Heading>
+    <StyledFilms>
+      <Container>
+        <Heading className="small white white--styled">{heading}</Heading>
 
-          <div className="grid">
-            {data
-              .filter((film: FilmData) => film.poster_path)
-              .map((film: FilmData) => {
-                const { id, title, poster_path } = film;
-                const newFilm = { id, title, poster_path, mediaType };
+        <div className="grid">
+          {data
+            .filter((film: FilmDetails) => film.poster_path)
+            .map((film: FilmDetails) => {
+              const extendedFilm: ExtendedFilmDetails = {
+                ...film,
+                media_type: mediaType,
+              };
 
-                return (
-                  <figure key={film.id} onClick={() => handleClick(newFilm)}>
-                    <img
-                      src={`https://image.tmdb.org/t/p/w500${film.poster_path}`}
-                      alt={film.title}
-                    />
-                  </figure>
-                );
-              })}
-          </div>
-        </Container>
-      </StyledFilms>
-
-      {openModal && (
-        <Modal
-          closeModal={() => setOpenModal(false)}
-          filmData={filmData as FilmData}
-          mediaType={mediaType}
-        />
-      )}
-    </>
+              return <FilmGrid key={film.id} film={extendedFilm} />;
+            })}
+        </div>
+      </Container>
+    </StyledFilms>
   );
 };
 
