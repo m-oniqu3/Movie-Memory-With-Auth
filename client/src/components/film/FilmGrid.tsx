@@ -19,7 +19,11 @@ const FilmGrid = (props: Props) => {
 
   return (
     <>
-      <figure key={film.id} onClick={() => handleClick(film)}>
+      <figure
+        className="figure"
+        key={film.id}
+        onClick={() => handleClick(film)}
+      >
         <img
           src={`https://image.tmdb.org/t/p/w500${film.poster_path}`}
           alt={film.title}

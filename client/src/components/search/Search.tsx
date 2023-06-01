@@ -50,7 +50,7 @@ const StyledSearch = styled.div`
         grid-gap: 2rem;
       }
 
-      figure {
+      .figure {
         display: flex;
         justify-content: center;
         align-items: center;
